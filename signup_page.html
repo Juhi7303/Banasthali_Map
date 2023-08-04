@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Material Icons' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="signup_css.css"> -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+        }
+
+        form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #9c9c9c;
+            border-radius: 10px;
+            width: 750px;
+            padding: 25px;
+            background: #fff;
+
+        }
+
+        .logo {
+            width: 100px;
+            padding: 5px 0;
+            margin: 0 0 0 -15px;
+        }
+
+        .head {
+            padding-left: 10px;
+        }
+
+        .head h3 {
+            margin: 0;
+            font-size: 23px;
+            font-family: jost;
+            position: relative;
+            letter-spacing: 1px;
+        }
+
+        input {
+            outline: none;
+            border: 1px solid #9c9c9c;
+            border-radius: 5px;
+            padding: 0 10px;
+            height: 35px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border: 1.5px solid #1f52f9;
+        }
+
+        .name {
+            display: inline-block;
+        }
+
+        input[type="text"] , input[type="email"] {
+            display: block;
+            margin: 30px 0 0 10px;
+            width: 390px;
+        }
+
+        .gmail {
+            position: relative;
+            display: block;
+            top: -47px;
+            left: 140px;
+            font-family: roboto;
+            color: #333;
+            font-size: 15px;
+            cursor: default;
+
+            margin-left: 30px;
+        }
+
+        .pass {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .password {
+            display: block;
+            width: 140px;
+            margin: 0 5px 0 10px;
+        }
+
+        label {
+            position: relative;
+            font-family: roboto;
+            color: #555;
+            font-size: 15px;
+            pointer-events: none;
+            left: -35px;
+            top: -28px;
+            transition: .2s all;
+        }
+
+        .name>label {
+            position: relative;
+            font-family: roboto;
+            color: #555;
+            font-size: 15px;
+            pointer-events: none;
+            left: -160px;
+            top: -28px;
+
+        }
+
+        .user-name>label {
+            position: relative;
+            font-family: roboto;
+            color: #555;
+            font-size: 15px;
+            pointer-events: none;
+            left: -135px;
+            top: -28px;
+
+        }
+
+        .pass>label {
+            position: relative;
+            font-family: roboto;
+            color: #555;
+            font-size: 15px;
+            pointer-events: none;
+            left: -40px;
+            top: -28px;
+
+        }
+
+
+        input:focus~label,
+        input:valid~label {
+            top: -49px;
+            left: 15px;
+            background: #fff;
+            padding: 0 5px;
+            font-size: 10px;
+            color: #1f52f9;
+        }
+
+        a {
+            position: relative;
+            font-family: roboto;
+            text-decoration: none;
+            display: block;
+        }
+
+        .line1 {
+            font-size: 12px;
+            margin: -10px 0 0 15px;
+
+        }
+
+        .line2 {
+            color: #1144ed;
+            font-size: 15px;
+            margin: 40px 0 20px 15px;
+        }
+
+        .line3 {
+            font-size: 12px;
+            margin: -10px 0 0 15px;
+            width: 310px;
+        }
+
+        .line4 {
+            font-size: 15px;
+            margin: 20px 8px;
+            color: #4971f6;
+            display: inline-block;
+            font-family: arial rounded mt;
+        }
+
+        input[type="submit"] {
+            background: #4971f6;
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 5px;
+            margin: 40px 0 30px 180px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        input[type="submit"]:hover {
+            background: #254fdb;
+        }
+    </style>
+    <script>
+        function check() {
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('pass1').value;
+            var cpassword = document.getElementById('pass2').value;
+
+            eidReg = /^\w+@[a-z]+\.[a-z]{2,3}$/;
+            uidReg = /^[a-zA-Z]{0, }[0-9]{0, }[a-zA-Z]{0, }$/;
+            passReg = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?=.*_).$/;
+
+            if (!uidRegReg.test(name)) {
+                alert("Please Enter a valid username");
+                return false;
+            }
+            else if (name.length == 0) {
+                document.getElementById("uname").innerHTML = "Please Fill Out This Field!";
+                return false;
+            }
+            else if (!eidReg.test(email)) {
+                alert("Please enter a valid Email Id");
+                return false;
+            }
+            else if (!passReg.test(pass1)) {
+                document.getElementById("pas").innerHTML = "Please create a strong password!";
+                return false;
+            }
+            else if (!pass1.compareTo(cpass2)) {
+                alert("Passwords do not match");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="main">
+        <table>
+            <tr>
+                <td align="center">
+                    <form action="" method="POST">
+                        <div class="head">
+                            <img src="images/googlelogo.png" alt="" class="logo">
+                            <h3>Create a New Account</h3>
+                        </div>
+                        <div class="name">
+                            <input type="text" id="name" name="name" required>
+                            <label>User name</label>
+                            <a class="line1">You can use letters & numbers.</a>
+                            <div id="uname"></div>
+                        </div>
+
+                        <div class="user-name">
+                            <input type="email" id="email" name="email" required>
+                            <label>Enter your email id</label>
+                        </div>
+
+
+                        <div class="pass">
+                            <input type="password" class="password" name="password" id="pass1" required>
+                            <label>Password</label>
+                            <div id="pas"></div>
+                        </div>
+                        <div class="pass">
+                            <input type="password" class="password" name="cpassword" id="pass2" required>
+                            <label>Confirm</label>
+                        </div>
+                        <a class="line3">Use 8 or more characters with a mix of letters, numbers & symbols</a>
+                        <a href="http://127.0.0.1:5000/" class="line4">Login instead</a>
+                        <input type="submit" value="Create Account">
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function show() {
+
+            var password = document.getElementById('pass1');
+            confirm = document.getElementById('pass2');
+            image = document.getElementById('eye');
+
+            if (password.type === "password", confirm.type === "password") {
+                password.type = "text";
+                confirm.type = "text";
+                image.setAttribute('src', 'eyeshow.png');
+
+            } else if (password.type === "text", confirm.type === "text") {
+                password.type = "password";
+                confirm.type = "password";
+                image.setAttribute('src', 'eyehide.png');
+            }
+        }
+
+    </script>
+</body>
+
+</html>

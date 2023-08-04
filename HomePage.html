@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Shortest Path using Google Maps</title>
+
+    <style>
+        .logo {
+            padding: 5px;
+            z-index: 50;
+        }
+
+        #logo1 {
+            height: 140px;
+            z-index: 50;
+        }
+
+        .outer {
+            background-color: transparent;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .outer h1 {
+            letter-spacing: 2.5px;
+            font-size: 3.5em;
+        }
+
+        .outer h1,
+        .outer p {
+            text-align: center;
+        }
+
+        #output {
+            text-align: center;
+            font-size: 20px;
+            position: relative;
+            top: 30px;
+            color: gray;
+
+        }
+
+        .top {
+            background-color: rgb(255, 255, 255);
+            height: 150px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: top;
+            justify-content: right;
+        }
+
+        .nav_top {
+            position: relative;
+            top: -180px;
+        }
+
+        /* top navigation bar */
+        #nav1 {
+            display: flex;
+            color: rgb(255, 255, 255);
+            align-items: end;
+            justify-content: end;
+
+        }
+
+        #nav1 ol {
+            list-style: none;
+        }
+
+        #nav1 ol li {
+            float: left;
+            width: 100px;
+            font-size: 15px;
+            text-align: center;
+            margin: 2px;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: mediumpurple;
+        }
+
+        #nav1 ol a {
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+        }
+
+        #nav1 ol li:hover {
+            background-color: rgb(129, 87, 214);
+        }
+
+        .search {
+            width: 600px;
+            height: 25px;
+            /* background-color: #fff; */
+            color: gray;
+            font-size: 20px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            padding-left: 300px;
+        }
+
+        #start,
+        #end {
+            height: 20px;
+            width: 200px;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        #getDirectionsBtn {
+            width: 150px;
+            height: 23px;
+            font-size: 15px;
+            /* margin: 2px; */
+            border: none;
+            border-radius: 5px;
+            background-color: mediumpurple;
+            color: rgb(255, 255, 255);
+            margin-top: 18px;
+        }
+
+        #map {
+            width: 100%;
+            height: 500px;
+            margin: 0;
+            position: relative;
+            top: 100px;
+
+        }
+        #google_element{
+            position: relative;
+            left: 10px;
+            top: 30px;
+        }
+    </style>
+
+    <script src="http://translate.google.com/translate_a/element.js?cb=loadGoogleTranslate"></script>
+    <script>
+        function loadGoogleTranslate() {
+            new google.translate.TranslateElement("google_element");
+        }
+    </script>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJhVe0mFhRdUNqibCNRBaSTgcZi4Wey6M&callback=initMap"
+        async defer></script>
+
+    <script>
+
+        var map;
+
+        var directionsService;
+
+        var directionsDisplay;
+
+
+
+        function initMap() {
+
+            // Create a map object
+
+            map = new google.maps.Map(document.getElementById('map'), {
+
+                center: { lat: 26.40456027309141, lng: 75.87186878147038 }, // Set default latitude and longitude
+
+                zoom: 16
+
+            });
+
+
+
+            // Create a directions service object
+
+            directionsService = new google.maps.DirectionsService();
+
+            directionsDisplay = new google.maps.DirectionsRenderer();
+
+            directionsDisplay.setMap(map);
+
+
+
+            // Add event listener to the "Get Directions" button
+
+            document.getElementById('getDirectionsBtn').addEventListener('click', function () {
+
+                calculateAndDisplayRoute();
+
+            });
+
+
+            var markers = [
+
+
+
+                {
+
+                    title: 'School of Nursing',
+
+                    position: { lat: 26.4009125, lng: 75.8789531 },
+
+                    content: 'School of Nursing'
+
+                },
+
+                {
+
+                    title: 'Prabha Mandir',
+
+                    position: { lat: 26.4014875, lng: 75.8774844 },
+
+                    content: 'Prabha Mandir'
+
+                },
+
+                {
+
+                    title: 'Nav Mandir',
+
+                    position: { lat: 26.4022125, lng: 75.8778906 },
+
+                    content: 'Nav Mandir'
+
+                },
+
+                {
+
+                    title: 'Pragya Mandir (Extension Building)',
+
+                    position: { lat: 26.4021125, lng: 75.8771719 },
+
+                    content: 'Pragya Mandir (Extension Building)'
+
+                },
+
+                {
+
+                    title: 'Vitt Mandir',
+
+                    position: { lat: 26.4024625, lng: 75.8775469 },
+
+                    content: 'Vitt Mandir'
+
+                },
+
+                {
+
+                    title: 'WISDOM (Mahindra Praygya Mandir)  ',
+
+                    position: { lat: 26.4021125, lng: 75.8765156 },
+
+                    content: 'WISDOM (Mahindra Praygya Mandir)'
+
+                },
+
+                {
+
+                    title: 'Vidhi Mandir',
+
+                    position: { lat: 26.4028375, lng: 75.8766406 },
+
+                    content: 'Vidhi Mandir'
+
+                },
+
+                {
+
+                    title: 'Department of Robotics',
+
+                    position: { lat: 26.4034875, lng: 75.8774844 },
+
+                    content: 'Department of Robotics'
+
+                },
+
+                {
+
+                    title: 'Center for Mathematical Sciences',
+
+                    position: { lat: 26.4029875, lng: 75.8761719 },
+
+                    content: 'Center for Mathematical Sciences'
+
+                },
+
+                {
+
+                    title: 'School of Automation',
+
+                    position: { lat: 26.4037125, lng: 75.8763281 },
+
+                    content: 'School of Automation'
+
+                },
+
+                {
+
+                    title: 'Center for Artificial Intelligence',
+
+                    position: { lat: 26.4040625, lng: 75.8767031 },
+
+                    content: 'Center for Artificial Intelligence'
+
+                },
+
+                {
+
+                    title: 'Bhoo Mandir',
+
+                    position: { lat: 26.4040125, lng: 75.8757344 },
+
+                    content: 'Bhoo Mandir'
+
+                },
+
+                {
+
+                    title: 'Ratan Mandir',
+
+                    position: { lat: 26.4043875, lng: 75.8750781 },
+
+                    content: 'Ratan Mandir'
+
+                },
+
+                {
+
+                    title: 'New Shiksha Mandir',
+
+                    position: { lat: 26.4052875, lng: 75.8757031 },
+
+                    content: 'New Shiksha Mandir'
+
+                },
+
+                {
+
+                    title: 'Vidya Mandir',
+
+                    position: { lat: 26.4026875, lng: 75.8750625 },
+
+                    content: 'Vidya Mandir'
+
+                },
+
+                {
+
+                    title: 'Urja Mandir',
+
+                    position: { lat: 26.4033125, lng: 75.8755625 },
+
+                    content: 'Urja Mandir'
+
+                },
+
+                {
+
+                    title: 'Shilp Mandir',
+
+                    position: { lat: 26.4037625, lng: 75.8751719 },
+
+                    content: 'Shilp Mandir'
+
+                },
+
+                {
+
+                    title: 'Sur Mandir',
+
+                    position: { lat: 26.4040375, lng: 75.8745781 },
+
+                    content: 'Sur Mandir'
+
+                },
+
+                {
+
+                    title: 'Vigyan Mandir',
+
+                    position: { lat: 26.4039375, lng: 75.8738125 },
+
+                    content: 'Vigyan Mandir'
+
+                },
+
+                {
+
+                    title: 'Vani Mandir',
+
+                    position: { lat: 26.4035445, lng: 75.8745201 },
+
+                    content: 'Vani Mandir'
+
+                },
+
+                {
+
+                    title: 'Department of Biotechnology',
+
+                    position: { lat: 26.4041625, lng: 75.8730781 },
+
+                    content: 'Department of Biotechnology'
+
+                },
+
+                {
+
+                    title: 'Jeev Mandir',
+
+                    position: { lat: 26.4046875, lng: 75.8729531 },
+
+                    content: 'Jeev Mandir'
+
+                },
+
+                {
+
+                    title: 'Surya Mandir',
+
+                    position: { lat: 26.4045375, lng: 75.8713281 },
+
+                    content: 'Surya Mandir'
+
+                },
+
+                {
+
+                    title: 'Sharda Mandir',
+
+                    position: { lat: 26.4066875, lng: 75.8659219 },
+
+                    content: 'Sharda Mandir'
+
+                },
+
+                {
+
+                    title: 'Saraswati Mandir',
+
+                    position: { lat: 26.4073625, lng: 75.8638906 },
+
+                    content: 'Saraswati Mandir'
+
+                },
+
+                {
+
+                    title: 'Kala Mandir',
+
+                    position: { lat: 26.4060625, lng: 75.8637969 },
+
+                    content: 'Kala Mandir'
+
+                },
+
+                {
+
+                    title: 'Nupur Mandir',
+
+                    position: { lat: 26.4063625, lng: 75.8624844 },
+
+                    content: 'Nupur Mandir'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Uthjam',
+
+                    position: { lat: 26.3969375, lng: 75.8770469 },
+
+                    content: 'Shri Shanta Uthjam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Sharnam',
+
+                    position: { lat: 26.3975125, lng: 75.8772969 },
+
+                    content: 'Shri Shanta Sharnam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Sanjavnam',
+
+                    position: { lat: 26.3981875, lng: 75.8780781 },
+
+                    content: 'Shri Shanta Sanjavnam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Sthanam',
+
+                    position: { lat: 26.3967125, lng: 75.8762031 },
+
+                    content: 'Shri Shanta Sthanam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Nikaay',
+
+                    position: { lat: 26.3972625, lng: 75.8763594 },
+
+                    content: 'Shri Shanta Nikaay'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Teertham',
+
+                    position: { lat: 26.3971125, lng: 75.8757031 },
+
+                    content: 'Shri Shanta Teertham'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Vasati',
+
+                    position: { lat: 26.3975625, lng: 75.8756406 },
+
+                    content: 'Shri Shanta Vasati'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Nishantam',
+
+                    position: { lat: 26.3972125, lng: 75.8743906 },
+
+                    content: 'Shri Shanta Nishantam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Sthaniyam',
+
+                    position: { lat: 26.3980125, lng: 75.8749531 },
+
+                    content: 'Shri Shanta Sthaniyam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Neri',
+
+                    position: { lat: 26.3976375, lng: 75.8765156 },
+
+                    content: 'Shri Shanta Neri'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Lok',
+
+                    position: { lat: 26.3981375, lng: 75.8760469 },
+
+                    content: 'Shri Shanta Lok'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Gangotri',
+
+                    position: { lat: 26.3984625, lng: 75.8750156 },
+
+                    content: 'Shri Shanta Gangotri'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Bhuvnam',
+
+                    position: { lat: 26.3983125, lng: 75.8769844 },
+
+                    content: 'Shri Shanta Bhuvnam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Vasam',
+
+                    position: { lat: 26.3986375, lng: 75.8762344 },
+
+                    content: 'Shri Shanta Vasam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Ajiram',
+
+                    position: { lat: 26.3989125, lng: 75.8753594 },
+
+                    content: 'Shri Shanta Ajiram'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Patanam',
+
+                    position: { lat: 26.3988875, lng: 75.8771406 },
+
+                    content: 'Shri Shanta Patanam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Ayanam',
+
+                    position: { lat: 26.3990625, lng: 75.8764531 },
+
+                    content: 'Shri Shanta Ayanam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Niveshnam',
+
+                    position: { lat: 26.3996375, lng: 75.8755469 },
+
+                    content: 'Shri Shanta Niveshnam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Nigam',
+
+                    position: { lat: 26.3994125, lng: 75.8770469 },
+
+                    content: 'Shri Shanta Nigam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Peetham',
+
+                    position: { lat: 26.3995875, lng: 75.8768281 },
+
+                    content: 'Shri Shanta Peetham'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Sadam',
+
+                    position: { lat: 26.3999375, lng: 75.8758125 },
+
+                    content: 'Shri Shanta Sadam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Chaityam',
+
+                    position: { lat: 26.3999625, lng: 75.8773594 },
+
+                    content: 'Shri Shanta Chaityam'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Sodh',
+
+                    position: { lat: 26.4006875, lng: 75.8760469 },
+
+                    content: 'Shri Shanta Sodh'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Dham',
+
+                    position: { lat: 26.4006875, lng: 75.8749219 },
+
+                    content: 'Shri Shanta Dham'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Vihar',
+
+                    position: { lat: 26.4011875, lng: 75.8742031 },
+
+                    content: 'Shri Shanta Vihar'
+
+                },
+
+                {
+
+                    title: 'Shri Shanta Aashrey',
+
+                    position: { lat: 26.40383653626228, lng: 75.86483354950917 }, //26.40383653626228, 75.86483354950917
+
+                    content: 'Shri Shanta Aashrey'
+
+                },
+
+                {
+
+                    title: 'Brahma Mandir',
+
+                    position: { lat: 26.409176994054523, lng: 75.8660170584664 }, //26.409176994054523, 75.8660170584664
+
+                    content: 'Brahma Mandir'
+
+                },
+
+                {
+
+                    title: 'Banasthali Airstrip',
+
+                    position: { lat: 26.407933509322838, lng: 75.86898317483214 }, //26.407933509322838, 75.86898317483214
+
+                    content: 'Banasthali Airstrip'
+
+                },
+
+                {
+
+                    title: 'Old Market Banasthali',
+
+                    position: { lat: 26.40781286292053, lng: 75.8609832085006 }, //26.40781286292053, 75.8609832085006
+
+                    content: 'Old Market Banasthali'
+
+                },
+
+                {
+
+                    title: 'Central Library',
+
+                    position: { lat: 26.404270114150382, lng: 75.87192686001615 }, //26.404270114150382, 75.87192686001615
+
+                    content: 'Central Library'
+
+                },
+
+                {
+
+                    title: 'Digital World Banasthali',
+
+                    position: { lat: 26.402742062384156, lng: 75.87282559290769 }, //26.402742062384156, 75.87282559290769
+
+                    content: 'Digital World Banasthali'
+
+                },
+
+                {
+
+                    title: 'New Market Banasthali',
+
+                    position: { lat: 26.401169110655587, lng: 75.87476715060801 }, //26.401169110655587, 75.87476715060801
+
+                    content: 'New Market Banasthali'
+
+                },
+
+                {
+
+                    title: 'Mukteshwari Canteen',
+
+                    position: { lat: 26.40292045131176, lng: 75.87053241963568 }, //26.40292045131176, 75.87053241963568
+
+                    content: 'Mukteshwari Canteen'
+
+                },
+
+                {
+
+                    title: 'Annapurna Canteen',
+
+                    position: { lat: 26.401927412474663, lng: 75.87437319953223 }, //26.401927412474663, 75.87437319953223
+
+                    content: 'Annapurna Canteen'
+
+                },
+
+                {
+
+                    title: 'Banasthali Vidyapith',
+
+                    position: { lat: 26.39926847763427, lng: 75.88092343133634 }, //26.39926847763427, 75.88092343133634
+
+                    content: 'Banasthali Vidyapith'
+
+                },
+
+                {
+
+                    title: 'State Bank of India',
+
+                    position: { lat: 26.399461202094358, lng: 75.87998858630729 }, //26.399461202094358, 75.87998858630729
+
+                    content: 'State Bank of India'
+
+                },
+
+                {
+
+                    title: 'Apaji Arogya Mandir',
+
+                    position: { lat: 26.39963049152632, lng: 75.87896787033154 }, //26.39963049152632, 75.87896787033154
+
+                    content: 'Apaji Arogya Mandir'
+
+                },
+
+                {
+
+                    title: 'Cricket Ground',
+
+                    position: { lat: 26.40598285070062, lng: 75.87083212183889 }, //26.40598285070062, 75.87083212183889
+
+                    content: 'Cricket Ground'
+
+                },
+
+
+
+                {
+
+                    title: 'Swimming Pool',
+
+                    position: { lat: 26.405983581715606, lng: 75.86992177933891 }, //26.405983581715606, 75.86992177933891
+
+                    content: 'Swimming Pool'
+
+                },
+
+
+
+                {
+
+                    title: 'Horse Riding Ground',
+
+                    position: { lat: 26.40564206349142, lng: 75.87385204240134 }, //26.40564206349142, 75.87385204240134
+
+                    content: 'Horse Riding Ground'
+
+                }
+
+
+
+
+
+
+
+            ];
+
+
+
+            markers.forEach(function (markerData) {
+
+                var marker = new google.maps.Marker({
+
+                    position: markerData.position,
+
+                    map: map,
+
+                    title: markerData.title
+
+                });
+
+
+
+                var infoWindow = new google.maps.InfoWindow({
+
+                    content: markerData.content
+
+                });
+
+
+
+                marker.addListener('click', function () {
+
+                    infoWindow.open(map, marker);
+
+                });
+
+            });
+
+        }
+
+
+
+        function calculateAndDisplayRoute() {
+
+            var start = document.getElementById('start').value;  // Get start address from input
+            //     selectElement = document.querySelector('#start');
+            // var start = selectElement.value;
+
+            var end = document.getElementById('end').value; // Get end address from input
+
+
+
+            var request = {
+
+                origin: start,
+
+                destination: end,
+
+                travelMode: 'DRIVING' // You can change the travel mode as needed
+
+            };
+
+
+
+            directionsService.route(request, function (result, status) {
+
+                if (status == 'OK') {
+
+                    directionsDisplay.setDirections(result);
+
+                    var shortestPath = 0;
+
+                    var legs = result.routes[0].legs;
+
+                    for (var i = 0; i < legs.length; i++) {
+
+                        shortestPath += legs[i].distance.value;
+
+                    }
+
+                    shortestPath /= 1000; // Convert distance to kilometers
+
+                    document.getElementById("output").innerHTML = "Shortest path: " + shortestPath + " km";
+
+                } else {
+
+                    alert('Directions request failed due to ' + status);
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <div class="outer">
+        <div class="outer1">
+            <div class="logo">
+                <img id="logo1" src="https://www.linkpicture.com/q/logo1_44.png">
+            </div>
+            <div class="nav_top">
+                
+                <nav id="nav1">
+                    <ol>
+                        <a href="http://www.banasthali.org/banasthali/wcms/en/home/admissions/index.html;jsessionid=76EE4CFE8BE0F855B2D49B2C3C2B773A"
+                            target="_blank">
+                            <li>Apply</li>
+                        </a>
+                        <a href="http://www.banasthali.org/banasthali/wcms/en/home/lower-menu/campus-tour/how-to-reach/index.html"
+                            target="_blank">
+                            <li>Visit</li>
+                        </a>
+                        <a href="http://127.0.0.1:5000/" target="_self">
+                            <li>Logout</li>
+                        </a>
+                    </ol>
+                </nav>
+                <div class="search">
+                    <select id="start">
+                        <option value="nil" selected>Select Starting Place</option>
+                        <option value="26.39696510879252, 75.87699958130574">Shri Shanta Uthjam</option>
+                        <option value="26.397363022298148, 75.87602183561823">Shri Shanta Sharnam</option>
+                        <option value="26.398163450339396, 75.87807626279478">Shri Shanta Sanjavnam</option>
+                        <option value="26.396715192628896, 75.87622739911792">Shri Shanta Sthanam</option>
+                        <option value="26.39728038990778, 75.87642752562884">Shri Shanta Nikaay</option>
+                        <option value="26.397217121698223, 75.87565291830492">Shri Shanta Teertham</option>
+                        <option value="26.397619928744522, 75.87561524743036">Shri Shanta Vasati</option>
+                        <option value="26.397263518403218, 75.87462167815728">Shri Shanta Nishantam</option>
+                        <option value="26.397940486227, 75.87495365272088">Shri Shanta Sthaniyam</option>
+                        <option value="26.397736473119966, 75.87642427065038">Shri Shanta Neri</option>
+                        <option value="26.39808784096225, 75.87605751347942">Shri Shanta Lok</option>
+                        <option value="26.398663756324417, 75.87514935841627">Shri Shanta Gangotri</option>
+                        <option value="26.400645807957467, 75.87082887525446">Shri Shanta Puri</option>
+                        <option value="26.398271318367055, 75.87686922786352">Shri Shanta Bhuvnam</option>
+                        <option value="26.39858860873247, 75.87624466822844">Shri Shanta Vasam</option>
+                        <option value="26.39951466800256, 75.8739990578095">Shri Shanta Ajiram</option>
+                        <option value="26.39897170257358, 75.87719088652975">Shri Shanta Patanam</option>
+                        <option value="26.399293638131596, 75.87669736007457">Shri Shanta Ayanam</option>
+                        <option value="26.39964440272614, 75.87571030715894">Shri Shanta Niveshnam</option>
+                        <option value="26.39924078312496, 75.87751275160787">Shri Shanta Nigam</option>
+                        <option value="26.399653248328764, 75.8768619507125">Shri Shanta Peetham</option>
+                        <option value="26.3999353266173, 75.87578886263908">Shri Shanta Sadam</option>
+                        <option value="26.400043252605634, 75.8773724699505">Shri Shanta Chaityam</option>
+                        <option value="26.400882731365712, 75.87592329599062">Shri Shanta Sodh</option>
+                        <option value="26.40091219199294, 75.87496890017609">Shri Shanta Dham</option>
+                        <option value="26.401183422328234, 75.87424490280517">Shri Shanta Vihar</option>
+                        <option value="26.40096679747624, 75.87910193615173">School Of Nursing</option>
+                        <option value="26.401513860396925, 75.8774583826683">Prabha Mandir</option>
+                        <option value="26.40232964720223, 75.87784087428896">Nav Mandir</option>
+                        <option value="26.402112468617755, 75.87721309766391">Pragya Mandir (Extension Building)
+                        </option>
+                        <option value="26.402070156395027, 75.87650026009075">Mahindra Pragya Mandir (WISDOM)</option>
+                        <option value="26.402560305210464, 75.87751708187754">Vitt Mandir</option>
+                        <option value="26.402818767720927, 75.87670124294145">Vidhi Mandir</option>
+                        <option value="26.403658749503588, 75.87720406956441">Department of Robotics</option>
+                        <option value="26.402556038056268, 75.87576104111687">Aim and Act</option>
+                        <option value="26.403058145441236, 75.87607485956934">Center for Mathematical Sciences</option>
+                        <option value="26.403885995664048, 75.87640397632285">School of Automation</option>
+                        <option value="26.404205515117877, 75.87672584140316">Center for Artificial Intelligence
+                        </option>
+                        <option value="26.40382593552336, 75.87586485231321">Bhoo Mandir</option>
+                        <option value="26.4043496589504, 75.87523453319616">Ratan Mandir</option>
+                        <option value="26.405441007132126, 75.87568080786941">New Shiksha Mandir</option>
+                        <option value="26.40513313878216, 75.87638595859983">Utkarsh Mandir</option>
+                        <option value="26.4028935282638, 75.87554346877342">Vidya Mandir</option>
+                        <option value="26.40329410913184, 75.8754913582928">Urja Mandir</option>
+                        <option value="26.40374334955607, 75.87515280458896">Shilp Mandir</option>
+                        <option value="26.404025995766276, 75.87457391955013">Sur Mandir</option>
+                        <option value="26.403381600146467, 75.87349109067031">Vigyan Mandir</option>
+                        <option value="26.403855110883004, 75.8725945639029">Vani Mandir</option>
+                        <option value="26.40443934549878, 75.87265295298442">Department of Biotechnology</option>
+                        <option value="26.404726765955118, 75.87298136535881">Jeev Mandir</option>
+                        <option value="26.404656843400456, 75.87136706911572">Surya Mandir</option>
+                        <option value="26.40617122724268, 75.86382578068275">Kala Mandir</option>
+                        <option value="26.406442846397546, 75.8632987551459">Nupur Mandir</option>
+                        <option value="26.40693254311113, 75.86594652520317">Sharda Mandir(Senior School)</option>
+                        <option value="26.407443766000288, 75.86475575914454">Saraswati Mandir(High School)</option>
+                        <option value="26.403068080002175, 75.87018993728404">Mukteshwari Canteen</option>
+                    </select>
+
+                    <select id="end">
+                        <option value="nil" selected>Select Destination Place</option>
+                        <option value="26.39696510879252, 75.87699958130574">Shri Shanta Uthjam</option>
+                        <option value="26.397363022298148, 75.87602183561823">Shri Shanta Sharnam</option>
+                        <option value="26.398163450339396, 75.87807626279478">Shri Shanta Sanjavnam</option>
+                        <option value="26.396715192628896, 75.87622739911792">Shri Shanta Sthanam</option>
+                        <option value="26.39728038990778, 75.87642752562884">Shri Shanta Nikaay</option>
+                        <option value="26.397217121698223, 75.87565291830492">Shri Shanta Teertham</option>
+                        <option value="26.397619928744522, 75.87561524743036">Shri Shanta Vasati</option>
+                        <option value="26.397263518403218, 75.87462167815728">Shri Shanta Nishantam</option>
+                        <option value="26.397940486227, 75.87495365272088">Shri Shanta Sthaniyam</option>
+                        <option value="26.397736473119966, 75.87642427065038">Shri Shanta Neri</option>
+                        <option value="26.39808784096225, 75.87605751347942">Shri Shanta Lok</option>
+                        <option value="26.398663756324417, 75.87514935841627">Shri Shanta Gangotri</option>
+                        <option value="26.400645807957467, 75.87082887525446">Shri Shanta Puri</option>
+                        <option value="26.398271318367055, 75.87686922786352">Shri Shanta Bhuvnam</option>
+                        <option value="26.39858860873247, 75.87624466822844">Shri Shanta Vasam</option>
+                        <option value="26.39951466800256, 75.8739990578095">Shri Shanta Ajiram</option>
+                        <option value="26.39897170257358, 75.87719088652975">Shri Shanta Patanam</option>
+                        <option value="26.399293638131596, 75.87669736007457">Shri Shanta Ayanam</option>
+                        <option value="26.39964440272614, 75.87571030715894">Shri Shanta Niveshnam</option>
+                        <option value="26.39924078312496, 75.87751275160787">Shri Shanta Nigam</option>
+                        <option value="26.399653248328764, 75.8768619507125">Shri Shanta Peetham</option>
+                        <option value="26.3999353266173, 75.87578886263908">Shri Shanta Sadam</option>
+                        <option value="26.400043252605634, 75.8773724699505">Shri Shanta Chaityam</option>
+                        <option value="26.400882731365712, 75.87592329599062">Shri Shanta Sodh</option>
+                        <option value="26.40091219199294, 75.87496890017609">Shri Shanta Dham</option>
+                        <option value="26.401183422328234, 75.87424490280517">Shri Shanta Vihar</option>
+                        <option value="26.40096679747624, 75.87910193615173">School Of Nursing</option>
+                        <option value="26.401513860396925, 75.8774583826683">Prabha Mandir</option>
+                        <option value="26.40232964720223, 75.87784087428896">Nav Mandir</option>
+                        <option value="26.402112468617755, 75.87721309766391">Pragya Mandir (Extension Building)
+                        </option>
+                        <option value="26.402070156395027, 75.87650026009075">Mahindra Pragya Mandir (WISDOM)</option>
+                        <option value="26.402560305210464, 75.87751708187754">Vitt Mandir</option>
+                        <option value="26.402818767720927, 75.87670124294145">Vidhi Mandir</option>
+                        <option value="26.403658749503588, 75.87720406956441">Department of Robotics</option>
+                        <option value="26.402556038056268, 75.87576104111687">Aim and Act</option>
+                        <option value="26.403058145441236, 75.87607485956934">Center for Mathematical Sciences</option>
+                        <option value="26.403885995664048, 75.87640397632285">School of Automation</option>
+                        <option value="26.404205515117877, 75.87672584140316">Center for Artificial Intelligence
+                        </option>
+                        <option value="26.40382593552336, 75.87586485231321">Bhoo Mandir</option>
+                        <option value="26.4043496589504, 75.87523453319616">Ratan Mandir</option>
+                        <option value="26.405441007132126, 75.87568080786941">New Shiksha Mandir</option>
+                        <option value="26.40513313878216, 75.87638595859983">Utkarsh Mandir</option>
+                        <option value="26.4028935282638, 75.87554346877342">Vidya Mandir</option>
+                        <option value="26.40329410913184, 75.8754913582928">Urja Mandir</option>
+                        <option value="26.40374334955607, 75.87515280458896">Shilp Mandir</option>
+                        <option value="26.404025995766276, 75.87457391955013">Sur Mandir</option>
+                        <option value="26.403381600146467, 75.87349109067031">Vigyan Mandir</option>
+                        <option value="26.403855110883004, 75.8725945639029">Vani Mandir</option>
+                        <option value="26.40443934549878, 75.87265295298442">Department of Biotechnology</option>
+                        <option value="26.404726765955118, 75.87298136535881">Jeev Mandir</option>
+                        <option value="26.404656843400456, 75.87136706911572">Surya Mandir</option>
+                        <option value="26.40617122724268, 75.86382578068275">Kala Mandir</option>
+                        <option value="26.406442846397546, 75.8632987551459">Nupur Mandir</option>
+                        <option value="26.40693254311113, 75.86594652520317">Sharda Mandir(Senior School)</option>
+                        <option value="26.407443766000288, 75.86475575914454">Saraswati Mandir(High School)</option>
+                        <option value="26.403068080002175, 75.87018993728404">Mukteshwari Canteen</option>
+                    </select>
+                    <button id="getDirectionsBtn">Get Directions</button>
+
+                    
+
+
+                </div>
+                <div id="output"></div>
+                <div id="map"></div>
+                <div id="google_element"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</body>
+
+</html>
